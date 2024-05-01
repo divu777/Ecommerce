@@ -23,6 +23,10 @@ import Search from "./pages/Search";
 import ProductDetails from "./pages/ProductDetails";
 import CategoryProduct from "./pages/CategoryProduct";
 import CartPage from "./pages/CartPage";
+import Profile from "./pages/USER/Profile";
+
+import Orders from "./pages/USER/Orders";
+import AdminOrder from "./pages/Admin/AdminOrder";
 function App() {
   return (
     <>
@@ -37,6 +41,8 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/dashboard" element={<PrivateRoute />}>
           <Route path="user" element={<Dashboard />} />
+          <Route path="user/profile" element={<Profile />} />
+          <Route path="user/orders" element={<Orders />} />
         </Route>
         <Route path="/dashboard" element={<AdminRoute />}>
           <Route path="admin" element={<AdminDashboard />} />
@@ -44,6 +50,7 @@ function App() {
           <Route path="admin/create-product" element={<CreateProduct />} />
           <Route path="admin/product/:slug" element={<UpdateProduct />} />
           <Route path="admin/products" element={<Products />} />
+          <Route path="admin/orders" element={<AdminOrder />} />
           <Route path="admin/users" element={<Users />} />
         </Route>
         <Route path="/cart" element={<CartPage />} />

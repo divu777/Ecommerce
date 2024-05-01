@@ -29,12 +29,20 @@ const AdminMenu = () => {
             Products
           </NavLink>
         </li>
-        <li>
+        <li className="mb-4">
           <NavLink
             to="/dashboard/admin/users"
             className="text-white hover:text-gray-300"
           >
             Users
+          </NavLink>
+        </li>
+        <li className="mb-4">
+          <NavLink
+            to="/dashboard/admin/orders"
+            className="text-white hover:text-gray-300"
+          >
+            Orders
           </NavLink>
         </li>
       </ul>

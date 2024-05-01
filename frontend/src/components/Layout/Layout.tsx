@@ -2,7 +2,7 @@ import React from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import { Helmet } from "react-helmet";
-
+import "./Layout.css";
 import { Toaster } from "react-hot-toast";
 
 interface Prop {
@@ -21,7 +21,7 @@ const Layout = ({
   children,
 }: Prop) => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen fullbody">
       <Helmet>
         <meta charSet="utf-8" />
         <meta name="description" content={desc} />
@@ -30,7 +30,7 @@ const Layout = ({
         <title>{title}</title>
       </Helmet>
       <Header />
-      <main className="h-lvh flex align-middle justify-center  text-xl text-cyan-400 underline bg-og">
+      <main className=" flex align-middle justify-center  text-xl h-max mt-2 ">
         <Toaster />
         {children}
       </main>
