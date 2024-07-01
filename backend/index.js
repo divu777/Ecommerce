@@ -30,6 +30,6 @@ app.get("/", (req, res) => {
   res.send("hello");
 });
 const PORT = process.env.PORT;
-app.listen(3030, () => {
+app.listen(PORT, () => {
   console.log(`sever is running on port ${PORT}`);
 });
