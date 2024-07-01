@@ -7,7 +7,7 @@ import productRoutes from "./routes/productRoute.js";
 import cors from "cors";
 // rest Object
 const app = express();
-
+import "dotenv/config";
 //Config DB
 connectDB();
 
@@ -29,7 +29,7 @@ app.options("*", cors());
 app.get("/", (req, res) => {
   res.send("hello");
 });
-
+const PORT = process.env.PORT || 3030;
 app.listen(3030, () => {
-  console.log("sever is running on port 3030");
+  console.log(`sever is running on port ${PORT}`);
 });
