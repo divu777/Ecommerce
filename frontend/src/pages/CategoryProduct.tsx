@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Layout from "../components/Layout/Layout";
 import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import mainPoster from "../images/poster,Shop.jpg";
 
-import TextAnimation from "./TextAnimation";
 import { useCart } from "../context/Cart";
 import { toast } from "react-hot-toast";
 interface Product {
@@ -21,13 +20,14 @@ const CategoryProduct = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [category, setCategory] = useState<any>(null); // Initialize as null or specify a type
   const params = useParams();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const getProductsByCat = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:3030/api/v1/product/product-category/${params.slug}`
+          `${
+            import.meta.env.VITE_BACKEND_URL
+          }/api/v1/product/product-category/${params.slug}`
         );
         setProducts(data?.products);
         setCategory(data?.category);
@@ -83,7 +83,9 @@ const CategoryProduct = () => {
               >
                 <img
                   className="w-full h-48 object-cover"
-                  src={`http://localhost:3030/api/v1/product/product-photo/${product._id}`}
+                  src={`${
+                    import.meta.env.VITE_BACKEND_URL
+                  }/api/v1/product/product-photo/${product._id}`}
                   alt={product.name}
                 />
                 <div className="p-4">

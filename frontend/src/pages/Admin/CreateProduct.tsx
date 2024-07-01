@@ -21,7 +21,7 @@ const CreateProduct = () => {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [shipping, setShipping] = useState("");
+  const [, setShipping] = useState("");
 
   const navigate = useNavigate();
 
@@ -42,7 +42,7 @@ const CreateProduct = () => {
       }
       productData.append("category", category);
       const { data } = await axios.post(
-        "http://localhost:3030/api/v1/product/create-product",
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/product/create-product`,
         productData
       );
       console.log("Response data:", data);
@@ -62,7 +62,7 @@ const CreateProduct = () => {
   const getCategories = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:3030/api/v1/category/get-category"
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/category/get-category`
       );
       if (data?.success) {
         setCategories(data.category);

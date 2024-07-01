@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "../components/Layout/Layout";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
-import { Button, Checkbox, Radio } from "antd";
-import { Prices } from "../components/Prices";
+import { Link } from "react-router-dom";
+
 import { useCart } from "../context/Cart";
-import mainPoster from "../images/poster.png";
+
 import reebok from "../images/reebok.jpg";
 import nike from "../images/nike.jpg";
 import adidas from "../images/adidas.jpg";
@@ -20,7 +19,6 @@ import shoe3 from "../images/shoe3.jpg";
 import shoe4 from "../images/shoe4.jpg";
 import Carousel from "../components/Carousel";
 import { HoverEffect } from "../components/ui/card-hover-effect";
-import About from "./About";
 
 interface Product {
   _id: string;
@@ -37,27 +35,21 @@ interface Category {
 }
 
 const HomePage = () => {
-  const items = [
-    { id: 1, imageUrl: mainPoster, text: "Slide 1" },
-    { id: 2, imageUrl: mainPoster, text: "Slide 2" },
-    { id: 3, imageUrl: mainPoster, text: "Slide 3" },
-  ];
-
   const [products, setProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [checked, setChecked] = useState<string[]>([]);
-  const [radio, setRadio] = useState<string[]>([]);
+  const [, setCategories] = useState<Category[]>([]);
+  const [checked] = useState<string[]>([]);
+  const [radio] = useState<string[]>([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
 
   const [cart, setCart] = useCart();
-  const navigate = useNavigate();
+
   const loadMore = async () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `http://localhost:3030/api/v1/product/product-list/${page}`
+        `${import.meta.env.BACKEND_URL}/api/v1/product/product-list/${page}`
       );
       setLoading(false);
       setProducts([...products, ...data?.products]);
@@ -74,7 +66,7 @@ const HomePage = () => {
   const getTotal = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:3030/api/v1/product/product-count"
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/product/product-count`
       );
       setTotal(data?.total);
     } catch (err) {
@@ -86,7 +78,7 @@ const HomePage = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `http://localhost:3030/api/v1/product/get-product`
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/product/get-product`
       );
       setLoading(false);
       setProducts(data.products);
@@ -111,7 +103,7 @@ const HomePage = () => {
   const getCategories = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:3030/api/v1/category/get-category"
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/category/get-category`
       );
       if (data?.success) {
         setCategories(data?.category);
@@ -122,20 +114,20 @@ const HomePage = () => {
     }
   };
 
-  const handleFilter = (value: boolean, id: string) => {
-    let all = [...checked];
-    if (value) {
-      all.push(id);
-    } else {
-      all = all.filter((c) => c !== id);
-    }
-    setChecked(all);
-  };
+  // const handleFilter = (value: boolean, id: string) => {
+  //   let all = [...checked];
+  //   if (value) {
+  //     all.push(id);
+  //   } else {
+  //     all = all.filter((c) => c !== id);
+  //   }
+  //   setChecked(all);
+  // };
 
   const filterProduct = async () => {
     try {
       const { data } = await axios.post(
-        "http://localhost:3030/api/v1/product/product-filter",
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/product/product-filter`,
         { checked, radio }
       );
       setProducts(data?.products);
@@ -226,7 +218,9 @@ const HomePage = () => {
                 >
                   <img
                     className="w-full object-cover h-80"
-                    src={`http://localhost:3030/api/v1/product/product-photo/${product._id}`}
+                    src={`${
+                      import.meta.env.VITE_BACKEND_URL
+                    }/api/v1/product/product-photo/${product._id}`}
                     alt={product.name}
                   />
                   <div className="p-4 flex flex-col h-48">
@@ -301,35 +295,41 @@ export const projects = [
     description:
       "A leading brand in athletic footwear, apparel, and accessories.",
     imageSource: nike,
+    link: "/nike",
   },
   {
     title: "Adidas",
     description:
       "A multinational corporation known for its sportswear and sneakers.",
     imageSource: adidas,
+    link: "/nike",
   },
   {
     title: "Converse",
     description:
       "An American shoe company known for its iconic Chuck Taylor All-Star sneakers.",
     imageSource: converse,
+    link: "/nike",
   },
   {
     title: "Reebok",
     description:
       "A global fitness and lifestyle brand known for its athletic footwear.",
     imageSource: reebok,
+    link: "/nike",
   },
   {
     title: "New Balance",
     description:
       "A brand specializing in athletic shoes and apparel for various sports.",
     imageSource: newb,
+    link: "/nike",
   },
   {
     title: "Asics",
     description:
       "A Japanese multinational corporation known for its athletic footwear and apparel.",
     imageSource: asics,
+    link: "/nike",
   },
 ];

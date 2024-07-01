@@ -1,6 +1,5 @@
-import * as React from "react";
 import { useRef } from "react";
-import { motion, sync, useCycle } from "framer-motion";
+import { motion, useCycle } from "framer-motion";
 import { useDimensions } from "./use-dimensions";
 import { MenuToggle } from "./MenuToggle";
 import { Navigation } from "./Navigation";
@@ -27,8 +26,11 @@ const sidebar = {
 
 export const Example = () => {
   const [isOpen, toggleOpen] = useCycle(false, true);
-  const containerRef = useRef<HTMLDivElement>(null); // Initialize with React.createRef()
-  const { height } = useDimensions(containerRef);
+  const containerRef = useRef<HTMLDivElement>(null); // Initialize with useRef
+  const dimensions = useDimensions(containerRef);
+
+  // Ensure dimensions is not null or undefined
+  const height = dimensions ? dimensions.height : 0;
 
   return (
     <motion.nav

@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import UserMenu from "../../components/Layout/UserMenu";
 import { useAuth } from "../../context/auth";
@@ -18,7 +18,7 @@ const Profile = () => {
     e.preventDefault();
     try {
       const { data } = await axios.put(
-        "http://localhost:3030/api/v1/auth/profile",
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/auth/profile`,
         { name, email, password, phone, address }
       );
       if (data?.error) {

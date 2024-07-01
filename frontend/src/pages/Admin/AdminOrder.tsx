@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "./../../components/Layout/Layout";
 import AdminMenu from "./../../components/Layout/AdminMenu";
 import axios from "axios";
@@ -10,9 +10,10 @@ import { Select } from "antd";
 const { Option } = Select;
 
 interface Order {
+  _id: string; // Assuming _id exists in your data structure
   status: string;
   buyer: { name: string };
-  createdAt: Date; // Corrected property name
+  createdAt: Date;
   payment: { success: boolean };
   products: Array<{
     _id: string;
@@ -23,42 +24,46 @@ interface Order {
 }
 
 const AdminOrder = () => {
-  const [status, setStatus] = useState([
+  const [status] = useState([
     "Not Processed",
     "Processing",
     "Shipped",
     "Delivered",
     "Cancel",
   ]);
-  const [changeStatus, setChangeStatus] = useState("");
+
   let i = 0;
   const [orders, setOrders] = useState<Order[]>([]);
-  const [auth, setAuth] = useAuth();
+  const [auth] = useAuth();
+
   const getOrder = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:3030/api/v1/auth/all-orders"
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/auth/all-orders`
       );
       setOrders(data);
     } catch (err) {
       console.log(err);
     }
   };
+
   useEffect(() => {
     if (auth?.token) getOrder();
   }, [auth?.token]);
 
-  const handleChange = async (oid, value) => {
+  const handleChange = async (oid: string, value: string) => {
     try {
       const { data } = await axios.put(
-        `http://localhost:3030/api/v1/auth/order-status/${oid}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/auth/order-status/${oid}`,
         { status: value }
       );
       getOrder();
+      console.log(data);
     } catch (err) {
       console.log(err);
     }
   };
+
   return (
     <Layout desc={""} keyw={""} auth={""} title={""}>
       <div>
@@ -66,7 +71,7 @@ const AdminOrder = () => {
         <div>
           {orders?.map((o, _i) => {
             return (
-              <div>
+              <div key={o._id}>
                 <table>
                   <thead>
                     <tr>
@@ -96,19 +101,21 @@ const AdminOrder = () => {
                     <th>{o?.buyer?.name}</th>
                     <th>{moment(o?.createdAt).fromNow()}</th>
 
-                    <th>{o?.payment.success ? "Sucess" : "Failed"}</th>
+                    <th>{o?.payment.success ? "Success" : "Failed"}</th>
                     <th>{o?.products?.length}</th>
                   </tbody>
                 </table>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {o?.products?.map((product, i) => (
+                  {o?.products?.map((product) => (
                     <div
                       key={product._id}
                       className="bg-white rounded-lg overflow-hidden shadow-md flex mb-4"
                     >
                       <img
                         className="w-1/3 h-auto object-cover"
-                        src={`http://localhost:3030/api/v1/product/product-photo/${product._id}`}
+                        src={`${
+                          import.meta.env.VITE_BACKEND_URL
+                        }/api/v1/product/product-photo/${product._id}`}
                         alt={product.name}
                       />
                       <div className="p-4 w-2/3">

@@ -43,7 +43,9 @@ const UpdateProduct = () => {
       }
       productData.append("category", category);
       const { data } = await axios.put(
-        `http://localhost:3030/api/v1/product/update-product/${id}`,
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/v1/product/update-product/${id}`,
         productData
       );
 
@@ -67,8 +69,11 @@ const UpdateProduct = () => {
       );
       if (!answer) return;
       const { data } = await axios.delete(
-        `http://localhost:3030/api/v1/product/delete-product/${id}`
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/v1/product/delete-product/${id}`
       );
+      console.log(data);
       toast.success("Product deleteed sucessfully ");
       navigate("/dashboard/admin/products");
     } catch (err) {
@@ -80,7 +85,9 @@ const UpdateProduct = () => {
   const getSingleProduct = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:3030/api/v1/product/single-product/${params.slug}`
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/product/single-product/${
+          params.slug
+        }`
       );
       setName(data.product.name);
       setDescription(data.product.description);
@@ -102,7 +109,7 @@ const UpdateProduct = () => {
   const getCategories = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:3030/api/v1/category/get-category"
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/category/get-category`
       );
       if (data?.success) {
         setCategories(data.category);
@@ -166,7 +173,9 @@ const UpdateProduct = () => {
           />
         ) : (
           <img
-            src={`http://localhost:3030/api/v1/product/product-photo/${id}`}
+            src={`${
+              import.meta.env.VITE_BACKEND_URL
+            }/api/v1/product/product-photo/${id}`}
             alt="product photo"
             className="h-48 w-auto object-contain rounded-lg border border-gray-300 mb-4"
           />

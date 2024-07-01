@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import useCategory from "../../hooks/useCategory";
 import "./Header.css";

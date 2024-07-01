@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import Layout from "../components/Layout/Layout";
 import { toast } from "react-hot-toast";
 import axios from "axios";
@@ -15,7 +15,7 @@ const Register = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:3030/api/v1/auth/register",
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/auth/register`,
         { name, email, password, phone, address, question }
       );
       if (res.data.success) {

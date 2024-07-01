@@ -1,9 +1,8 @@
-import React, { FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import Layout from "../components/Layout/Layout";
 import { toast } from "react-hot-toast";
 import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/auth";
+import { useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -16,7 +15,7 @@ const ForgotPassword = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:3030/api/v1/auth/forgot-password",
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/auth/forgot-password`,
         {
           email,
           newPassword,

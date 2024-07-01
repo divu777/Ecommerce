@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import UserMenu from "../../components/Layout/UserMenu";
 import axios from "axios";
@@ -21,11 +21,11 @@ interface Order {
 const Options = () => {
   let i = 0;
   const [orders, setOrders] = useState<Order[]>([]);
-  const [auth, setAuth] = useAuth();
+  const [auth] = useAuth();
   const getOrder = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:3030/api/v1/auth/orders"
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/auth/orders`
       );
       setOrders(data);
     } catch (err) {
@@ -67,14 +67,16 @@ const Options = () => {
                   </tbody>
                 </table>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {o?.products?.map((product, i) => (
+                  {o?.products?.map((product) => (
                     <div
                       key={product._id}
                       className="bg-white rounded-lg overflow-hidden shadow-md flex mb-4"
                     >
                       <img
                         className="w-1/3 h-auto object-cover"
-                        src={`http://localhost:3030/api/v1/product/product-photo/${product._id}`}
+                        src={`${
+                          import.meta.env.VITE_BACKEND_URL
+                        }/api/v1/product/product-photo/${product._id}`}
                         alt={product.name}
                       />
                       <div className="p-4 w-2/3">

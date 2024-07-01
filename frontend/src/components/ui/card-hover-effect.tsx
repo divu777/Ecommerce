@@ -4,13 +4,13 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 interface HoverEffectProps {
-  items: Array<{
+  items: {
     title: string;
     description: string;
-    link: string;
     imageSource: string;
-  }>;
-  className?: string;
+    link?: string; // Add link property
+  }[];
+  className?: string; // Add className as an optional prop
 }
 
 export const HoverEffect = ({ items, className }: HoverEffectProps) => {
@@ -25,7 +25,7 @@ export const HoverEffect = ({ items, className }: HoverEffectProps) => {
     >
       {items.map((item, idx) => (
         <Link
-          to={item.link}
+          to="/"
           key={item.link}
           className="relative group block p-2 h-full w-full"
           onMouseEnter={() => setHoveredIndex(idx)}

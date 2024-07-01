@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import Layout from "../components/Layout/Layout";
 import { toast } from "react-hot-toast";
 import axios from "axios";
@@ -13,10 +13,13 @@ const Login = () => {
   const handleSub = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:3030/api/v1/auth/login", {
-        email,
-        password,
-      });
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/auth/login`,
+        {
+          email,
+          password,
+        }
+      );
       if (res.data.success) {
         toast.success(res.data.message);
         setAuth({

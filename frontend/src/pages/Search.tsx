@@ -1,10 +1,9 @@
-import React from "react";
 import Layout from "../components/Layout/Layout";
 import { useSearch } from "../context/Search";
 import { Link } from "react-router-dom";
 
 const Search = () => {
-  const [values, setValues] = useSearch();
+  const [values] = useSearch();
 
   return (
     <Layout desc={""} keyw={""} auth={""} title={"Search Result"}>
@@ -23,7 +22,9 @@ const Search = () => {
             >
               <img
                 className="w-full h-48 object-cover"
-                src={`http://localhost:3030/api/v1/product/product-photo/${product._id}`}
+                src={`${
+                  import.meta.env.VITE_BACKEND_URL
+                }/api/v1/product/product-photo/${product._id}`}
                 alt={product.name}
               />
               <div className="p-4">

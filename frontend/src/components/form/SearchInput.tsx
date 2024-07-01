@@ -12,7 +12,9 @@ const SearchInput = () => {
     e.preventDefault();
     try {
       const { data } = await axios.get(
-        `http://localhost:3030/api/v1/product/search/${values.keyword}`
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/product/search/${
+          values.keyword
+        }`
       );
       setValue({ ...values, results: data });
       navigate("/search");

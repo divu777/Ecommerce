@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "../components/Layout/Layout";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
@@ -23,7 +23,9 @@ const ProductDetails = () => {
   const getProduct = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:3030/api/v1/product/single-product/${params.slug}`
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/product/single-product/${
+          params.slug
+        }`
       );
       setProduct(data?.product);
       getSimilarProducts(data?.product._id, data?.product.category._id);
@@ -36,15 +38,12 @@ const ProductDetails = () => {
     if (params?.slug) getProduct();
   }, [params?.slug]);
 
-  const handleAddToCart = () => {
-    console.log("Product added to cart:", product);
-    // Implement add to cart functionality here
-  };
-
   const getSimilarProducts = async (productId: string, categoryId: string) => {
     try {
       const { data } = await axios.get(
-        `http://localhost:3030/api/v1/product/related-product/${productId}/${categoryId}`
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/v1/product/related-product/${productId}/${categoryId}`
       );
       setRelatedProducts(data?.products);
     } catch (err) {
@@ -61,7 +60,9 @@ const ProductDetails = () => {
             <div className="w-full md:w-1/2">
               <img
                 className="w-full h-auto rounded-lg shadow-2xl"
-                src={`http://localhost:3030/api/v1/product/product-photo/${product._id}`}
+                src={`${
+                  import.meta.env.VITE_BACKEND_URL
+                }/api/v1/product/product-photo/${product._id}`}
                 alt={product.name}
               />
             </div>
@@ -113,7 +114,9 @@ const ProductDetails = () => {
               >
                 <img
                   className="w-full h-48 object-cover"
-                  src={`http://localhost:3030/api/v1/product/product-photo/${relatedProduct._id}`}
+                  src={`${
+                    import.meta.env.VITE_BACKEND_URL
+                  }/api/v1/product/product-photo/${relatedProduct._id}`}
                   alt={relatedProduct.name}
                 />
                 <div className="p-4">

@@ -6,12 +6,12 @@ import Spinner from "../../Spinner";
 
 export default function AdminRoute() {
   const [ok, setOk] = useState(false);
-  const [auth, setAuth] = useAuth();
+  const [auth] = useAuth();
 
   useEffect(() => {
     const authCheck = async () => {
       const res = await axios.get(
-        "http://localhost:3030/api/v1/auth/admin-auth"
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/auth/admin-auth`
       );
       if (res.data.ok) {
         setOk(true);

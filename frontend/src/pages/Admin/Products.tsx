@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AdminMenu from "../../components/Layout/AdminMenu";
 import Layout from "../../components/Layout/Layout";
 import toast from "react-hot-toast";
@@ -20,7 +20,7 @@ const Products = () => {
   const getAllProducts = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:3030/api/v1/product/get-product"
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/product/get-product`
       );
       setProducts(data.products); // Update state with data.products
     } catch (err) {
@@ -53,7 +53,9 @@ const Products = () => {
             >
               <img
                 className="w-full h-48 object-cover"
-                src={`http://localhost:3030/api/v1/product/product-photo/${p._id}`}
+                src={`${
+                  import.meta.env.VITE_BACKEND_URL
+                }/api/v1/product/product-photo/${p._id}`}
                 alt={p.name}
               />
               <div className="p-4">

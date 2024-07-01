@@ -1,4 +1,3 @@
-import React from "react";
 import Layout from "../components/Layout/Layout";
 import useCategory from "../hooks/useCategory";
 import { Link } from "react-router-dom";

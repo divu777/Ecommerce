@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 import toast from "react-hot-toast";
 import SearchInput from "../form/SearchInput";
-import useCategory from "../../hooks/useCategory";
 import { useCart } from "../../context/Cart";
 import { Badge } from "antd";
 import "./Header.css";
@@ -13,15 +12,10 @@ import { BsHandbag } from "react-icons/bs";
 
 import SideBar from "./SideBar";
 import { FaRegUser } from "react-icons/fa";
-interface Category {
-  _id: string;
-  name: string;
-  slug: string;
-}
 
 const Header = () => {
   const [auth, setAuth] = useAuth();
-  const categories: Category[] = useCategory();
+
   const [cart] = useCart();
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
 

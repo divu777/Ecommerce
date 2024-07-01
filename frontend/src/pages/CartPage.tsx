@@ -16,18 +16,18 @@ interface Product {
   price: number;
 }
 
-const CartPage = () => {
-  const [auth, setAuth] = useAuth();
+const CartPage: React.FC = () => {
+  const [auth] = useAuth();
   const [cart, setCart] = useCart();
   const navigate = useNavigate();
-  const [clientToken, setClientToken] = useState();
-  const [instance, setinstance] = useState("");
+  const [clientToken, setClientToken] = useState<string | null>(null);
+  const [instance, setInstance] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
-  const totalPrice = () => {
+  const totalPrice = (): string => {
     try {
       let total = 0;
-      cart?.map((product: Product) => {
+      cart?.forEach((product: Product) => {
         total += product.price;
       });
       return total.toLocaleString("en-US", {
@@ -36,13 +36,14 @@ const CartPage = () => {
       });
     } catch (err) {
       console.log(err);
+      return "Error calculating total";
     }
   };
 
   const removeCartItem = (pid: string) => {
     try {
-      let myCart = [...cart];
-      let index = myCart.findIndex((item) => item._id === pid);
+      const myCart = [...cart];
+      const index = myCart.findIndex((item) => item._id === pid);
       myCart.splice(index, 1);
       setCart(myCart);
       localStorage.setItem("cart", JSON.stringify(myCart));
@@ -54,9 +55,9 @@ const CartPage = () => {
   const getToken = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:3030/api/v1/product/braintree/token"
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/product/braintree/token`
       );
-      setClientToken(data?.clientToken);
+      setClientToken(data.clientToken);
     } catch (err) {
       console.log(err);
     }
@@ -69,9 +70,10 @@ const CartPage = () => {
   const handlePayment = async () => {
     try {
       setLoading(true);
+      if (!instance) throw new Error("Instance not found");
       const { nonce } = await instance.requestPaymentMethod();
       const { data } = await axios.post(
-        "http://localhost:3030/api/v1/product/braintree/payment",
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/product/braintree/payment`,
         {
           nonce,
           cart,
@@ -80,8 +82,9 @@ const CartPage = () => {
       setLoading(false);
       localStorage.removeItem("cart");
       setCart([]);
+      console.log(data);
       navigate("/dashboard/user/orders");
-      toast.success("Payment Completed Successfully ");
+      toast.success("Payment Completed Successfully");
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -103,7 +106,9 @@ const CartPage = () => {
               >
                 <img
                   className="w-1/3 h-auto object-cover"
-                  src={`http://localhost:3030/api/v1/product/product-photo/${product._id}`}
+                  src={`${
+                    import.meta.env.VITE_BACKEND_URL
+                  }/api/v1/product/product-photo/${product._id}`}
                   alt={product.name}
                 />
                 <div className="p-4 w-2/3">
@@ -171,11 +176,10 @@ const CartPage = () => {
                         flow: "vault",
                       },
                     }}
-                    onInstance={(instance) => setinstance(instance)}
+                    onInstance={(instance) => setInstance(instance)}
                   />
-
                   <button
-                    className="bg-gray-800 text-white rounded-lg hover:bg-black font-bold py-2 px-4 rounded"
+                    className="bg-gray-800 text-white  hover:bg-black font-bold py-2 px-4 rounded"
                     onClick={handlePayment}
                     disabled={loading || !instance || !auth?.user?.address}
                   >

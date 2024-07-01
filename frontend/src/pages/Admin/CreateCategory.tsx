@@ -22,7 +22,7 @@ const CreateCategory: React.FC = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        "http://localhost:3030/api/v1/category/create-category",
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/category/create-category`,
         { name }
       );
       if (data.success) {
@@ -41,7 +41,9 @@ const CreateCategory: React.FC = () => {
     e.preventDefault();
     try {
       const { data } = await axios.put(
-        `http://localhost:3030/api/v1/category/update-category/${selected?._id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/category/update-category/${
+          selected?._id
+        }`,
         { name: updatedName }
       );
       if (data.success) {
@@ -59,14 +61,12 @@ const CreateCategory: React.FC = () => {
     }
   };
 
-  interface IdObject {
-    id: string;
-  }
-
   const handleDelete = async (pId: string) => {
     try {
       const { data } = await axios.delete(
-        `http://localhost:3030/api/v1/category/delete-category/${pId}`
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/v1/category/delete-category/${pId}`
       );
       if (data.success) {
         toast.success(`${name} is deleted`);
@@ -84,7 +84,7 @@ const CreateCategory: React.FC = () => {
   const getCategories = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:3030/api/v1/category/get-category"
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/category/get-category`
       );
       if (data?.success) {
         setCategories(data?.category);
