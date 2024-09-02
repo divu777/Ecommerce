@@ -19,6 +19,7 @@ import shoe3 from "../images/shoe3.jpg";
 import shoe4 from "../images/shoe4.jpg";
 import Carousel from "../components/Carousel";
 import { HoverEffect } from "../components/ui/card-hover-effect";
+import ProductGridSkeleton from "./Skeleton";
 
 interface Product {
   _id: string;
@@ -208,71 +209,75 @@ const HomePage = () => {
               OUR NEW PRODUCTS TO WELCOME THE SUMMER OF 2024
             </div>
           </div>
-          <div className="flex p-4 w-screen flex-col  justify-center px-32 ">
-            <h1 className="text-6xl font-bold mb-8">All Products</h1>
-            <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
-              {products.map((product) => (
-                <div
-                  key={product._id}
-                  className="bg-white overflow-hidden shadow-xl  w-96"
-                >
-                  <img
-                    className="w-full object-cover h-80"
-                    src={`${
-                      import.meta.env.VITE_BACKEND_URL
-                    }/api/v1/product/product-photo/${product._id}`}
-                    alt={product.name}
-                  />
-                  <div className="p-4 flex flex-col h-48">
-                    <h5 className="text-lg font-semibold text-gray-900">
-                      {/* {product.name} */}
-                      {product.name.slice(0, 30)}
-                      {product.name.length > 30 && "..."}
-                    </h5>
-                    <p className="mt-2 text-sm text-gray-600">
-                      {product.description.slice(0, 50)}
-                      {product.description.length > 50 && "..."}
-                    </p>
-                    <p className="text-sm text-gray-600">${product.price}</p>
-                    <div className="mt-4 flex justify-between items-center">
-                      <Link
-                        to={`/product/${product.slug}`}
-                        className="text-gray-700 hover:text-gray-900"
-                      >
-                        View
-                      </Link>
-                      <button
-                        className="px-3 py-1 bg-gray-800 text-white rounded-lg hover:bg-black"
-                        onClick={() => {
-                          setCart([...cart, product]);
-                          localStorage.setItem(
-                            "cart",
-                            JSON.stringify([...cart, product])
-                          );
-                          toast.success("Added to cart successfully");
-                        }}
-                      >
-                        Add to Cart
-                      </button>
+          {loading && products.length === 0 ? (
+            <ProductGridSkeleton />
+          ) : (
+            <div className="flex p-4 w-screen flex-col  justify-center px-32 ">
+              <h1 className="text-6xl font-bold mb-8">All Products</h1>
+              <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+                {products.map((product) => (
+                  <div
+                    key={product._id}
+                    className="bg-white overflow-hidden shadow-xl  w-96"
+                  >
+                    <img
+                      className="w-full object-cover h-80"
+                      src={`${
+                        import.meta.env.VITE_BACKEND_URL
+                      }/api/v1/product/product-photo/${product._id}`}
+                      alt={product.name}
+                    />
+                    <div className="p-4 flex flex-col h-48">
+                      <h5 className="text-lg font-semibold text-gray-900">
+                        {/* {product.name} */}
+                        {product.name.slice(0, 30)}
+                        {product.name.length > 30 && "..."}
+                      </h5>
+                      <p className="mt-2 text-sm text-gray-600">
+                        {product.description.slice(0, 50)}
+                        {product.description.length > 50 && "..."}
+                      </p>
+                      <p className="text-sm text-gray-600">${product.price}</p>
+                      <div className="mt-4 flex justify-between items-center">
+                        <Link
+                          to={`/product/${product.slug}`}
+                          className="text-gray-700 hover:text-gray-900"
+                        >
+                          View
+                        </Link>
+                        <button
+                          className="px-3 py-1 bg-gray-800 text-white rounded-lg hover:bg-black"
+                          onClick={() => {
+                            setCart([...cart, product]);
+                            localStorage.setItem(
+                              "cart",
+                              JSON.stringify([...cart, product])
+                            );
+                            toast.success("Added to cart successfully");
+                          }}
+                        >
+                          Add to Cart
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+              <div className="flex justify-center my-8">
+                {products && products.length < total && (
+                  <button
+                    className="px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setPage(page + 1);
+                    }}
+                  >
+                    {loading ? "Loading..." : "Loadmore"}
+                  </button>
+                )}
+              </div>
             </div>
-            <div className="flex justify-center my-8">
-              {products && products.length < total && (
-                <button
-                  className="px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setPage(page + 1);
-                  }}
-                >
-                  {loading ? "Loading..." : "Loadmore"}
-                </button>
-              )}
-            </div>
-          </div>
+          )}
           {/* brands supported by  */}
           <div className="flex justify-around h-1/4 items-center w-full my-20">
             <div>(PARTNER)</div>
