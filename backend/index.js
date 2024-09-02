@@ -16,9 +16,7 @@ app.use(morgan("dev"));
 
 // Use cors middleware
 app.use(
-  cors({
-    origin: process.env.ALLOWED_ORIGINS || "*",
-  })
+  cors()
 );
 
 //routes
